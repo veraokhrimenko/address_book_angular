@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Task manager</title>
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/style.css">
+	<script type="text/javascript" src="js/knockout-2.2.1.js"></script>	
+	<script type="text/javascript" src="js/angular.min.js"></script>	
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />	
+</head>
+<body>
+<div ng-app="adressBook">	
+	<div class="ang-book book" ng-controller="AdressBookCtrl">
+		<div class="header">Address book</div>
+		<div class="group">
+			<div class="title">Groups</div>
+			<ul>
+			<li>saf</li>
+				<li ng-repeat="group in groups.items | filter:query" ng-click="filters.groupid = (group.id)" >{{group.name}}</li>
+			</ul>
+		</div>
+		<div class="list">		
+			<div class="title">Users</div>
+			<ul>
+				<li ng-repeat="member in members.items | filter:query | filter:filters">
+					<img src="images/no_avatar.jpg" />
+					<span  ng-click="members.showDetails(this)">{{member.name}}</span>
+				</li>
+			</ul>
+		</div>
+		<div class="detail">
+			<div class="contact">
+				<a class="button delete-user" ng-click="members.deleteUser(this)">-</a>
+				<div class="info" ng-value="{{details}}"> 
+					<img src="images/noavatar.png" />
+					<label>Name :</label><input ng-model='details.name' value="{{details.name}}" ng-disabled="details.disabled" />
+					<label>Phone :</label><input ng-model='details.phone' value="{{details.phone}}" ng-disabled="details.disabled" />
+					<label>E-mail :</label><input  ng-model='details.email' value="{{details.email}}" ng-disabled="details.disabled" />
+					<label>Group :</label>
+						<select ng-disabled="details.disabled" ng-model="selectedGroup" ng-options="c.name for c in groups.items"></select>
+				</div>
+				<a class="button small edit" ng-show="details.disabled" ng-click="members.editMember(this)">edit</a>
+				<a class="button small edit" ng-show="!details.disabled">save</a>
+			</div>
+		</div>
+		<div class="action">
+			<div class="add-new">
+				<input placeholder="button new contact" ng-model="name" ><a class="button new-user" ng-click="members.addMember(name)">+</a>
+			</div>	
+			<div class="search">
+				<form>
+					<input type="text" ng-model="query" placeholder="Search your contacts"/>				
+					<img src="images/search_icon.png" />
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+</body>
+</html> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

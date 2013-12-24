@@ -104,6 +104,11 @@ ul {
 	display:inline-block;
     width: 135px;
 }
+.info  input[disabled], .info  select[disabled]{
+	border:none; 
+	padding:2px;
+	color:#000;
+}
 .info  input, .info select{
 	height:20px;
 	width:135px;

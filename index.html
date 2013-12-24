@@ -15,14 +15,14 @@
 		<div class="group">
 			<div class="title">Groups</div>
 			<ul>
-			<li>saf</li>
-				<li ng-repeat="group in groups.items | filter:query" ng-click="filters.groupid = (group.id)" >{{group.name}}</li>
+				<li ng-repeat="group in groups.items | filter:query" ng-click="groups.groupingFind(this)" >{{group.name}}</li>
 			</ul>
 		</div>
 		<div class="list">		
 			<div class="title">Users</div>
 			<ul>
-				<li ng-repeat="member in members.items | filter:query | filter:filters">
+			
+				<li ng-show="!member.hide" ng-repeat="member in members.items | filter:query | filter:filters">
 					<img src="images/no_avatar.jpg" />
 					<span  ng-click="members.showDetails(this)">{{member.name}}</span>
 				</li>
@@ -33,11 +33,11 @@
 				<a class="button delete-user" ng-click="members.deleteUser(this)">-</a>
 				<div class="info" ng-value="{{details}}"> 
 					<img src="images/noavatar.png" />
-					<label>Name :</label><input ng-model='details.name' value="{{details.name}}" ng-disabled="details.disabled" />
-					<label>Phone :</label><input ng-model='details.phone' value="{{details.phone}}" ng-disabled="details.disabled" />
-					<label>E-mail :</label><input  ng-model='details.email' value="{{details.email}}" ng-disabled="details.disabled" />
+					<label>Name :</label><input ng-model='details.name' type="text" value="{{details.name}}" ng-disabled="details.disabled" />
+					<label>Phone :</label><input ng-model='details.phone' type="text" value="{{details.phone}}" ng-disabled="details.disabled" />
+					<label>E-mail :</label><input  ng-model='details.email' type="text" value="{{details.email}}" ng-disabled="details.disabled" />
 					<label>Group :</label>
-						<select ng-disabled="details.disabled" ng-model="selectedGroup" ng-options="c.name for c in groups.items"></select>
+						<select ng-disabled="details.disabled" ng-model="selectedGroup" ng-options="c.name for c in groups.items" ng-change="members.grouping(this)"></select>
 				</div>
 				<a class="button small edit" ng-show="details.disabled" ng-click="members.editMember(this)">edit</a>
 				<a class="button small edit" ng-show="!details.disabled">save</a>

@@ -1,3 +1,5 @@
+
+// will implement pattern observe
 var Member = function(opt){
 	this.name = opt.name;
 	this.id = opt.id;
@@ -17,8 +19,23 @@ var dima = new Member({
 	email : 'dima@dfsd.com',
 	phone : '123-345=456'
 });
+var members = []
+members.push(vera, dima)
 var phonecatApp = angular.module('adressBook', [])
- 
+
+if(typeof(localStorage) == "undefined" ) {
+	alert('do not support localStorage!');
+} else {
+	try {
+		if( !localStorage.getItem('members')) {
+			localStorage.setItem('members', JSON.stringify(members));
+		}
+	}
+	catch (e) {
+		alert(e); 
+	}
+}
+console.log(localStorage.getItem('members'))
 phonecatApp.controller('AdressBookCtrl', function ($scope) {
  // should retrieve json data by $http.get
 	$scope.groups = {
@@ -28,12 +45,13 @@ phonecatApp.controller('AdressBookCtrl', function ($scope) {
 			{name: 'friends', id : 2},
 			{name: 'coworkers', id : 3}
 		],
-		groupingFind: function(item){
-			console.log(item.group.id)
+		inGroup: function(item){
 			for (var i = 0; i < $scope.members.items.length; i++) {
 				for (var key in $scope.members.items[i]) {
 					if( key == 'groupid' && $scope.members.items[i][key] != item.group.id){
-						$scope.members.items[i].hide = true
+						console.log('no find')
+					} else {
+						console.log('find')
 					}
 				}
 			}
@@ -50,7 +68,7 @@ phonecatApp.controller('AdressBookCtrl', function ($scope) {
 		}
 	}
 	$scope.members = {
-		items: [vera, dima],
+		items: JSON.parse(localStorage.getItem('members')),
 		showDetails : function(item){
 			$scope.details = {};
 			$scope.details = item.member;
@@ -62,15 +80,18 @@ phonecatApp.controller('AdressBookCtrl', function ($scope) {
 				for (var key in $scope.members.items[i]) {
 					if( key == 'id' && $scope.members.items[i][key] == item.details.id){
 						$scope.members.items.splice(i, 1)
-						$scope.details = {}
+						$scope.details = null;
 					}
 				}
 			}
 		},
 		addMember: function(name){
 			if(name) {
-				$scope.members.items.push({name: name})
+				members.push(new Member({name:name}))
+				localStorage.setItem('members', JSON.stringify(members));
+				//$scope.members.items.push({name: name})
 				$scope.name = ""
+				console.log(localStorage.getItem('members'))
 			}
 		},
 		editMember: function(item){

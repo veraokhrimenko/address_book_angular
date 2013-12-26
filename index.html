@@ -15,21 +15,20 @@
 		<div class="group">
 			<div class="title">Groups</div>
 			<ul>
-				<li ng-repeat="group in groups.items | filter:query" ng-click="groups.groupingFind(this)" >{{group.name}}</li>
+				<li ng-repeat="group in groups.items | filter:query" ng-click="groups.inGroup(this)" >{{group.name}}</li>
 			</ul>
 		</div>
 		<div class="list">		
 			<div class="title">Users</div>
 			<ul>
-			
-				<li ng-show="!member.hide" ng-repeat="member in members.items | filter:query | filter:filters">
+				<li ng-repeat="member in members.items | filter:query ">
 					<img src="images/no_avatar.jpg" />
 					<span  ng-click="members.showDetails(this)">{{member.name}}</span>
 				</li>
 			</ul>
 		</div>
 		<div class="detail">
-			<div class="contact">
+			<div class="contact" ng-show='details'>
 				<a class="button delete-user" ng-click="members.deleteUser(this)">-</a>
 				<div class="info" ng-value="{{details}}"> 
 					<img src="images/noavatar.png" />

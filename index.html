@@ -21,7 +21,7 @@
 		<div class="list">		
 			<div class="title">Users</div>
 			<ul>
-				<li ng-repeat="member in members.items | filter:query ">
+				<li ng-repeat="member in members.items | filter:query " ng-class="{'strike':member.checked}">
 					<img src="images/no_avatar.jpg" />
 					<span  ng-click="members.showDetails(this)">{{member.name}}</span>
 				</li>
@@ -36,7 +36,7 @@
 					<label>Phone :</label><input ng-model='details.phone' type="text" value="{{details.phone}}" ng-disabled="details.disabled" />
 					<label>E-mail :</label><input  ng-model='details.email' type="text" value="{{details.email}}" ng-disabled="details.disabled" />
 					<label>Group :</label>
-						<select ng-disabled="details.disabled" ng-model="selectedGroup" ng-options="c.name for c in groups.items" ng-change="members.grouping(this)"></select>
+						<select ng-disabled="details.disabled" ng-model="selectedGroup" ng-options="c.name for c in groups.items" ng-change="members.changeGroup(this)"></select>
 				</div>
 				<a class="button small edit" ng-show="details.disabled" ng-click="members.editMember(this)">edit</a>
 				<a class="button small edit" ng-show="!details.disabled">save</a>

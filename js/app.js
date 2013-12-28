@@ -15,15 +15,45 @@ var vera = new Member({
 
 var dima = new Member({
 	name : 'Dime',
-	id : 1,
+	id : 3,
 	email : 'dima@dfsd.com',
 	phone : '123-345=456'
 });
+
+var masha = new Member({
+	name : 'Masha',
+	id : 4,
+	email : 'maria@dfsd.com',
+	phone : '456-457-78',
+	groupid: 3
+});
 var members = []
 members.push(vera, dima)
+var AdressBook = {
+	members: [vera, dima, masha],
+	groups: [{name: 'all contacts', id: 0},{name: 'family', id : 1},{name: 'friends', id : 2},{name: 'coworkers', id : 3}],
+	addMember: function(name){
+		var member = new Member({name:name})
+		this.members.push(member)
+	},
+	getCurrent: function(id){
+		for (var i = 0; i < this.members.length; i++) {
+			for (var key in this.members[i]) {
+				if( key == 'id' && this.members[i][key] == id){
+					return i
+				}
+			}
+		}
+	},
+	editMember: function(){},
+	deleteMember: function(item){
+		var i = this.getCurrent(item.details.id)
+		this.members.splice(i, 1)
+	}
+}
 var phonecatApp = angular.module('adressBook', [])
 
-if(typeof(localStorage) == "undefined" ) {
+/* if(typeof(localStorage) == "undefined" ) {
 	alert('do not support localStorage!');
 } else {
 	try {
@@ -34,18 +64,13 @@ if(typeof(localStorage) == "undefined" ) {
 	catch (e) {
 		alert(e); 
 	}
-}
-console.log(localStorage.getItem('members'))
+} */
+
 phonecatApp.controller('AdressBookCtrl', function ($scope) {
  // should retrieve json data by $http.get
 	$scope.groups = {
-		items: [
-			{name: 'all contacts', id: 0},
-			{name: 'family', id : 1},
-			{name: 'friends', id : 2},
-			{name: 'coworkers', id : 3}
-		],
-		inGroup: function(item){
+		items: AdressBook.groups,
+		inGroup: function(item){ 
 			for (var i = 0; i < $scope.members.items.length; i++) {
 				for (var key in $scope.members.items[i]) {
 					if( key == 'groupid' && $scope.members.items[i][key] != item.group.id){
@@ -68,36 +93,27 @@ phonecatApp.controller('AdressBookCtrl', function ($scope) {
 		}
 	}
 	$scope.members = {
-		items: JSON.parse(localStorage.getItem('members')),
+		items: AdressBook.members,
 		showDetails : function(item){
 			$scope.details = {};
 			$scope.details = item.member;
 			$scope.details.disabled = true;
 			$scope.selectedGroup = $scope.groups.items[item.member.groupid]
 		},
-		deleteUser: function(item){
-			for (var i = 0; i < $scope.members.items.length; i++) {
-				for (var key in $scope.members.items[i]) {
-					if( key == 'id' && $scope.members.items[i][key] == item.details.id){
-						$scope.members.items.splice(i, 1)
-						$scope.details = null;
-					}
-				}
+		addMember:  function(name){
+			if(name) {
+				AdressBook.addMember(name);
+				$scope.name = "";
 			}
 		},
-		addMember: function(name){
-			if(name) {
-				members.push(new Member({name:name}))
-				localStorage.setItem('members', JSON.stringify(members));
-				//$scope.members.items.push({name: name})
-				$scope.name = ""
-				console.log(localStorage.getItem('members'))
-			}
+		deleteUser: function(item){
+			AdressBook.deleteMember(item);
+			$scope.details = null;
 		},
 		editMember: function(item){
 			item.details.disabled = false
 		},
-		grouping: function(item){
+		changeGroup: function(item){
 			for (var i = 0; i < $scope.members.items.length; i++) {
 				for (var key in $scope.members.items[i]) {
 					if( key == 'id' && $scope.members.items[i][key] == item.details.id){

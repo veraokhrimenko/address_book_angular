@@ -15,13 +15,13 @@
 		<div class="group">
 			<div class="title">Groups</div>
 			<ul>
-				<li ng-repeat="group in groups.items | filter:query" ng-click="groups.inGroup(this)" >{{group.name}}</li>
+				<li ng-repeat="group in groups.items | filter:query" ng-click="groups.grouping(this)" >{{group.name}}</li>
 			</ul>
 		</div>
 		<div class="list">		
 			<div class="title">Users</div>
 			<ul>
-				<li ng-repeat="member in members.items | filter:query " ng-class="{'strike':member.checked}">
+				<li ng-repeat="member in members.items | filter:query" class="ng-class: {{member.inGroup}}">
 					<img src="images/no_avatar.jpg" />
 					<span  ng-click="members.showDetails(this)">{{member.name}}</span>
 				</li>

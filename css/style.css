@@ -59,6 +59,12 @@ ul {
 	padding:2px 10px;
 	font-size:13px;
 }
+.list li.active{
+	display: block;
+}
+.list li.disabled{
+	display: none;
+}
 .list li img{
 	width:16px;
 }

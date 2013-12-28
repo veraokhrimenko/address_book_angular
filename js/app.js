@@ -70,26 +70,20 @@ phonecatApp.controller('AdressBookCtrl', function ($scope) {
  // should retrieve json data by $http.get
 	$scope.groups = {
 		items: AdressBook.groups,
-		inGroup: function(item){ 
+		grouping: function(item){ 
 			for (var i = 0; i < $scope.members.items.length; i++) {
-				for (var key in $scope.members.items[i]) {
-					if( key == 'groupid' && $scope.members.items[i][key] != item.group.id){
-						console.log('no find')
-					} else {
-						console.log('find')
+				for (var key in $scope.members.items[i] ) {
+					if(key == 'groupid'){
+						if($scope.members.items[i][key] == item.group.id || item.group.id == 0){
+							$scope.members.items[i].inGroup = 'active'
+						} else {
+							$scope.members.items[i].inGroup = 'disabled'
+						}
 					}
+					
 				}
 			}
 		
-		},
-		grouping : function(id){
-			for (var i = 0; i < $scope.members.items.length; i++) {
-				for (var key in $scope.members.items[i]) {
-					if( key == 'id' && $scope.members.items[i][key] == id){
-						return i
-					}
-				}
-			}
 		}
 	}
 	$scope.members = {
